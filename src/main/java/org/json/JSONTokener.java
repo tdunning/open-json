@@ -18,6 +18,9 @@ package org.json;
 
 // Note: this class was written without inspecting the non-free org.json sourcecode.
 
+import java.io.IOException;
+import java.io.Reader;
+
 /**
  * Parses a JSON (<a href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>)
  * encoded string into the corresponding object. Most clients of
@@ -83,6 +86,18 @@ public class JSONTokener {
             in = in.substring(1);
         }
         this.in = in;
+    }
+
+    public JSONTokener(Reader input) throws IOException {
+        StringBuilder s = new StringBuilder();
+        char[] readBuf = new char[102400];
+        int n = input.read(readBuf);
+        while (n >= 0) {
+            s.append(readBuf, 0, n);
+            n = input.read(readBuf);
+        }
+        in = s.toString();
+        pos = 0;
     }
 
     /**
