@@ -26,79 +26,79 @@ public class JSONTokenerTest extends TestCase {
 
     public void testNulls() throws JSONException {
         // JSONTokener accepts null, only to fail later on almost all APIs!
-        new JSONTokener(null).back();
+        new JSONTokener((String) null).back();
 
         try {
-            new JSONTokener(null).more();
+            new JSONTokener((String) null).more();
             fail();
         } catch (NullPointerException ignored) {
         }
 
         try {
-            new JSONTokener(null).next();
+            new JSONTokener((String) null).next();
             fail();
         } catch (NullPointerException ignored) {
         }
 
         try {
-            new JSONTokener(null).next(3);
+            new JSONTokener((String) null).next(3);
             fail();
         } catch (NullPointerException ignored) {
         }
 
         try {
-            new JSONTokener(null).next('A');
+            new JSONTokener((String) null).next('A');
             fail();
         } catch (NullPointerException ignored) {
         }
 
         try {
-            new JSONTokener(null).nextClean();
+            new JSONTokener((String) null).nextClean();
             fail();
         } catch (NullPointerException ignored) {
         }
 
         try {
-            new JSONTokener(null).nextString('"');
+            new JSONTokener((String) null).nextString('"');
             fail();
         } catch (NullPointerException ignored) {
         }
 
         try {
-            new JSONTokener(null).nextTo('A');
+            new JSONTokener((String) null).nextTo('A');
             fail();
         } catch (NullPointerException ignored) {
         }
 
         try {
-            new JSONTokener(null).nextTo("ABC");
+            new JSONTokener((String) null).nextTo("ABC");
             fail();
         } catch (NullPointerException ignored) {
         }
 
         try {
-            new JSONTokener(null).nextValue();
+            new JSONTokener((String) null).nextValue();
             fail();
         } catch (NullPointerException ignored) {
         }
 
         try {
-            new JSONTokener(null).skipPast("ABC");
+            new JSONTokener((String) null).skipPast("ABC");
             fail();
         } catch (NullPointerException ignored) {
         }
 
         try {
-            new JSONTokener(null).skipTo('A');
+            new JSONTokener((String) null).skipTo('A');
             fail();
         } catch (NullPointerException ignored) {
         }
 
         //noinspection ThrowableResultOfMethodCallIgnored
         assertEquals("foo! at character 0 of null",
-                new JSONTokener(null).syntaxError("foo!").getMessage());
+                new JSONTokener((String) null).syntaxError("foo!").getMessage());
 
-        assertEquals(" at character 0 of null", new JSONTokener(null).toString());
+        assertEquals(" at character 0 of null", new JSONTokener((String) null).toString());
     }
 
     public void testEmptyString() throws JSONException {
