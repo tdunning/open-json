@@ -11,5 +11,12 @@ ill-defined, many downstream consumers of this software
 find this license condition unacceptable. The moral is 
 don't put jokes into legal documents.
 
+# Acknowledgements
+
+Thanks to the Android team for doing 99% of the work.
+
+Thanks also to Simon Lessard for lending his critical eye 
+and excellent suggestions.
+
 [1] http://www.json.org/
 [2] http://www.json.org/license.html 
