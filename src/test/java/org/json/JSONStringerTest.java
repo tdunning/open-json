@@ -26,6 +26,16 @@ import static org.junit.Assert.*;
 public class JSONStringerTest {
 
     @Test
+    public void testJSONFunctionHackTest(){
+        JSONStringer stringer = new JSONStringer();
+        stringer.object();
+        stringer.key("key");
+        stringer.value(new JSONFunctionTestObject("window.test()"));
+        stringer.endObject();
+        assertEquals("{\"key\":window.test()}", stringer.toString());
+    }
+
+    @Test
     public void testEmptyStringer() {
         // why isn't this the empty string?
         assertNull(new JSONStringer().toString());

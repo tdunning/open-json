@@ -146,7 +146,7 @@ public class ParsingTest {
         // the value -1 expressed as unsigned hex if you use the normal JDK. Presumably
         // the Android equivalent program does this better.
         assertParsed("Large hex longs shouldn't yield ints or strings",
-                0xFFF_FFFF_FFFF_FFFFL, "0xFFFFFFFFFFFFFFF");
+                0xFFFFFFFFFFFFFFFL, "0xFFFFFFFFFFFFFFF");
     }
 
     @Test
@@ -272,14 +272,14 @@ public class ParsingTest {
     private Object canonicalize(Object input) throws JSONException {
         if (input instanceof JSONArray) {
             JSONArray array = (JSONArray) input;
-            List<Object> result = new ArrayList<>();
+            List<Object> result = new ArrayList<Object>();
             for (int i = 0; i < array.length(); i++) {
                 result.add(canonicalize(array.opt(i)));
             }
             return result;
         } else if (input instanceof JSONObject) {
             JSONObject object = (JSONObject) input;
-            Map<String, Object> result = new HashMap<>();
+            Map<String, Object> result = new HashMap<String,Object>();
             for (Iterator<?> i = object.keys(); i.hasNext(); ) {
                 String key = (String) i.next();
                 result.put(key, canonicalize(object.get(key)));
