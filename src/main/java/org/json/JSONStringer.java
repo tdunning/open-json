@@ -113,7 +113,7 @@ public class JSONStringer {
      * Unlike the original implementation, this stack isn't limited to 20
      * levels of nesting.
      */
-    private final List<Scope> stack = new ArrayList<>();
+    private final List<Scope> stack = new ArrayList<Scope>();
 
     /**
      * A string containing a full set of spaces for a single level of
@@ -256,7 +256,13 @@ public class JSONStringer {
             out.append(JSONObject.numberToString((Number) value));
 
         } else {
-            string(value.toString());
+            // Hack to make it possible that the value is not surrounded by quotes. (Used for JavaScript function calls)
+            // Example: { "name": "testkey", "value": window.myfunction() }
+            if(value.getClass().getSimpleName().indexOf("JSONFunction") != -1){
+                string(value.toString(), false);
+            }else{
+                string(value.toString());
+            }
         }
 
         return this;
@@ -312,9 +318,18 @@ public class JSONStringer {
     }
 
     private void string(String value) {
-        out.append("\"");
+        string(value, true);
+    }
+
+    private void string(String value, boolean surroundingQuotes) {
+        if(surroundingQuotes){
+            out.append("\"");
+        }
+        char previousChar = 0;
+        char currentChar = 0;
         for (int i = 0, length = value.length(); i < length; i++) {
-            char c = value.charAt(i);
+            previousChar = currentChar;
+            currentChar = value.charAt(i);
 
             /*
              * From RFC 4627, "All Unicode characters may be placed within the
@@ -322,11 +337,18 @@ public class JSONStringer {
              * quotation mark, reverse solidus, and the control characters
              * (U+0000 through U+001F)."
              */
-            switch (c) {
+            switch (currentChar) {
                 case '"':
                 case '\\':
+                    out.append("\\").append(currentChar);
+                    break;
+
                 case '/':
-                    out.append('\\').append(c);
+                    // It is not required to escape /, but to place it in script tags "</" has to be escaped
+                    if(previousChar == '<'){
+                        out.append('\\');
+                    }
+                    out.append(currentChar);
                     break;
 
                 case '\t':
@@ -350,16 +372,18 @@ public class JSONStringer {
                     break;
 
                 default:
-                    if (c <= 0x1F) {
-                        out.append(String.format("\\u%04x", (int) c));
+                    if (currentChar <= 0x1F) {
+                        out.append(String.format("\\u%04x", (int) currentChar));
                     } else {
-                        out.append(c);
+                        out.append(currentChar);
                     }
                     break;
             }
 
         }
-        out.append("\"");
+        if(surroundingQuotes){
+            out.append("\"");
+        }
     }
 
     private void newline() {

@@ -31,7 +31,7 @@ public class JSONObjectTest {
     @Test
     public void testKeyset() throws Exception {
         JSONObject x = new JSONObject("{'a':1, 'b':2, 'c':3}");
-        Set<String> k = new TreeSet<>();
+        Set<String> k = new TreeSet<String>();
         for (String kx : Arrays.asList("a", "b", "c")) {
             k.add(kx);
         }
@@ -683,7 +683,7 @@ public class JSONObjectTest {
      */
     @Test
     public void testCreateWithUnsupportedNumbers() throws JSONException {
-        Map<String, Object> contents = new HashMap<>();
+        Map<String, Object> contents = new HashMap<String, Object>();
         contents.put("foo", Double.NaN);
         contents.put("bar", Double.NEGATIVE_INFINITY);
         contents.put("baz", Double.POSITIVE_INFINITY);
@@ -703,7 +703,7 @@ public class JSONObjectTest {
 
     @Test
     public void testMapConstructorCopiesContents() throws JSONException {
-        Map<String, Object> contents = new HashMap<>();
+        Map<String, Object> contents = new HashMap<String, Object>();
         contents.put("foo", 5);
         JSONObject object = new JSONObject(contents);
         contents.put("foo", 10);
@@ -712,7 +712,7 @@ public class JSONObjectTest {
 
     @Test
     public void testMapConstructorWithBogusEntries() {
-        Map<Object, Object> contents = new HashMap<>();
+        Map<Object, Object> contents = new HashMap<Object, Object>();
         contents.put(5, 5);
 
         try {
@@ -969,13 +969,13 @@ public class JSONObjectTest {
 
         @SuppressWarnings("unchecked")
         Iterator<String> keys = object.keys();
-        Set<String> result = new HashSet<>();
+        Set<String> result = new HashSet<String>();
         assertTrue(keys.hasNext());
         result.add(keys.next());
         assertTrue(keys.hasNext());
         result.add(keys.next());
         assertFalse(keys.hasNext());
-        assertEquals(new HashSet<>(Arrays.asList("foo", "bar")), result);
+        assertEquals(new HashSet<String>(Arrays.asList("foo", "bar")), result);
 
         try {
             keys.next();
@@ -1058,10 +1058,10 @@ public class JSONObjectTest {
     // https://code.google.com/p/android/issues/detail?id=55114
     @Test
     public void test_toString_listAsMapValue() throws Exception {
-        ArrayList<Object> list = new ArrayList<>();
+        ArrayList<Object> list = new ArrayList<Object>();
         list.add("a");
         list.add(new ArrayList<String>());
-        Map<String, Object> map = new TreeMap<>();
+        Map<String, Object> map = new TreeMap<String, Object>();
         map.put("x", "l");
         map.put("y", list);
         assertEquals("{\"x\":\"l\",\"y\":[\"a\",[]]}", new JSONObject(map).toString());
