@@ -18,5 +18,8 @@ Thanks to the Android team for doing 99% of the work.
 Thanks also to Simon Lessard for lending his critical eye 
 and excellent suggestions.
 
+Thanks to Tobias Soloschenko and Martin Grigorov with 
+suggestions so open-json can help Wicket avoid the problem.
+
 [1] http://www.json.org/
 [2] http://www.json.org/license.html 
