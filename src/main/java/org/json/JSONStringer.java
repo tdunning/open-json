@@ -256,7 +256,13 @@ public class JSONStringer {
             out.append(JSONObject.numberToString((Number) value));
 
         } else {
-            string(value.toString());
+            // Hack to make it possible that the value is not surrounded by quotes. (Used for JavaScript function calls)
+            // Example: { "name": "testkey", "value": window.myfunction() }
+            if (value.getClass().getSimpleName().contains("JSONFunction")) {
+                string(value.toString(), false);
+            } else {
+                string(value.toString(), true);
+            }
         }
 
         return this;
@@ -311,12 +317,14 @@ public class JSONStringer {
         return this;
     }
 
-    private void string(String value) {
-        out.append("\"");
+    private void string(String value, boolean surroundingQuotes) {
+        if (surroundingQuotes) {
+            out.append("\"");
+        }
         char currentChar = 0;
-        char previousChar;
+
         for (int i = 0, length = value.length(); i < length; i++) {
-            previousChar = currentChar;
+            char previousChar = currentChar;
             currentChar = value.charAt(i);
 
             /*
@@ -369,7 +377,9 @@ public class JSONStringer {
             }
 
         }
-        out.append("\"");
+        if (surroundingQuotes) {
+            out.append("\"");
+        }
     }
 
     private void newline() {
@@ -395,7 +405,7 @@ public class JSONStringer {
             throw new JSONException("Names must be non-null");
         }
         beforeKey();
-        string(name);
+        string(name, true);
         return this;
     }
 
