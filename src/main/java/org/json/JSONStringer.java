@@ -313,8 +313,11 @@ public class JSONStringer {
 
     private void string(String value) {
         out.append("\"");
+        char currentChar = 0;
+        char previousChar;
         for (int i = 0, length = value.length(); i < length; i++) {
-            char c = value.charAt(i);
+            previousChar = currentChar;
+            currentChar = value.charAt(i);
 
             /*
              * From RFC 4627, "All Unicode characters may be placed within the
@@ -322,11 +325,18 @@ public class JSONStringer {
              * quotation mark, reverse solidus, and the control characters
              * (U+0000 through U+001F)."
              */
-            switch (c) {
+            switch (currentChar) {
                 case '"':
                 case '\\':
+                    out.append('\\').append(currentChar);
+                    break;
+
                 case '/':
-                    out.append('\\').append(c);
+                    // it makes life easier for HTML embedding of javascript if we escape </ sequences
+                    if (previousChar == '<') {
+                        out.append('\\');
+                    }
+                    out.append(currentChar);
                     break;
 
                 case '\t':
@@ -350,10 +360,10 @@ public class JSONStringer {
                     break;
 
                 default:
-                    if (c <= 0x1F) {
-                        out.append(String.format("\\u%04x", (int) c));
+                    if (currentChar <= 0x1F) {
+                        out.append(String.format("\\u%04x", (int) currentChar));
                     } else {
-                        out.append(c);
+                        out.append(currentChar);
                     }
                     break;
             }

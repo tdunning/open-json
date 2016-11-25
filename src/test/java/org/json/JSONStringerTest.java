@@ -231,6 +231,7 @@ public class JSONStringerTest {
         assertEscapedAllWays("\\u0000", "\0");
         assertEscapedAllWays("\\u0019", "\u0019");
         assertEscapedAllWays(" ", "\u0020");
+        assertEscapedAllWays("<\\/foo>", "</foo>");
     }
 
     private void assertEscapedAllWays(String escaped, String original) throws JSONException {
