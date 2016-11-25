@@ -122,7 +122,7 @@ public class JSONObject {
      * Creates a {@code JSONObject} with no name/value mappings.
      */
     public JSONObject() {
-        nameValuePairs = new LinkedHashMap<>();
+        nameValuePairs = new LinkedHashMap<String, Object>();
     }
 
     /**
@@ -792,7 +792,7 @@ public class JSONObject {
     public JSONArray names() {
         return nameValuePairs.isEmpty()
                 ? null
-                : new JSONArray(new ArrayList<>(nameValuePairs.keySet()));
+                : new JSONArray(new ArrayList<String>(nameValuePairs.keySet()));
     }
 
     /**
