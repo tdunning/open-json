@@ -30,9 +30,9 @@ public class JSONStringerTest {
         JSONStringer stringer = new JSONStringer();
         stringer.object();
         stringer.key("key");
-        stringer.value(new JSONFunctionTestObject("window.test()"));
+        stringer.value(new JSONFunctionTestObject("window.test('foo' + \"bar\")"));
         stringer.endObject();
-        assertEquals("{\"key\":window.test()}", stringer.toString());
+        assertEquals("{\"key\":window.test('foo' + \"bar\")}", stringer.toString());
     }
 
     @Test
