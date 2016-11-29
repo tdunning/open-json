@@ -16,9 +16,11 @@
 
 package org.json;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * This black box test was written without inspecting the non-free org.json sourcecode.
@@ -30,9 +32,9 @@ public class JSONStringerTest {
         JSONStringer stringer = new JSONStringer();
         stringer.object();
         stringer.key("key");
-        stringer.value(new JSONFunctionTestObject("window.test()"));
+        stringer.value(new JSONFunctionTestObject("window.test();alert(\"hello!\")"));
         stringer.endObject();
-        assertEquals("{\"key\":window.test()}", stringer.toString());
+        assertEquals("{\"key\":window.test();alert(\"hello!\")}", stringer.toString());
     }
 
     @Test
