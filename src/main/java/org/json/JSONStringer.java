@@ -259,7 +259,7 @@ public class JSONStringer {
             // Hack to make it possible that the value is not surrounded by quotes. (Used for JavaScript function calls)
             // Example: { "name": "testkey", "value": window.myfunction() }
             if (value.getClass().getSimpleName().contains("JSONFunction")) {
-                string(value.toString(), false);
+                out.append(value);
             } else {
                 string(value.toString(), true);
             }
