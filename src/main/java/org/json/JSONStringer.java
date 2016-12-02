@@ -264,7 +264,7 @@ public class JSONStringer {
                 // explicitly put a special kind of object into the JSON data structure.
                 out.append(value);
             } else {
-                string(value.toString(), true);
+                string(value.toString());
             }
         }
 
@@ -320,10 +320,8 @@ public class JSONStringer {
         return this;
     }
 
-    private void string(String value, boolean surroundingQuotes) {
-        if (surroundingQuotes) {
-            out.append("\"");
-        }
+    private void string(String value) {
+        out.append("\"");
         char currentChar = 0;
 
         for (int i = 0, length = value.length(); i < length; i++) {
@@ -380,9 +378,7 @@ public class JSONStringer {
             }
 
         }
-        if (surroundingQuotes) {
-            out.append("\"");
-        }
+        out.append("\"");
     }
 
     private void newline() {
@@ -408,7 +404,7 @@ public class JSONStringer {
             throw new JSONException("Names must be non-null");
         }
         beforeKey();
-        string(name, true);
+        string(name);
         return this;
     }
 
