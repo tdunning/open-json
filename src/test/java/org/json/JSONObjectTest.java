@@ -16,6 +16,8 @@
 
 package org.json;
 
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
@@ -1113,6 +1115,26 @@ public class JSONObjectTest {
             new JSONObject("{\"q\":\"\\u\", \"r\":[]}");
             fail();
         } catch (JSONException ignored) {
+        }
+    }
+
+    @Test
+    public void testBeanThings() throws Exception {
+        Foo f = new Foo();
+        assertEquals("{\"a\":1,\"b\":1,\"c\":\"c\"}", new JSONObject(f).toString());
+    }
+
+    private static class Foo {
+        public double getA() {
+            return 1.0;
+        }
+
+        public int getB() {
+            return 1;
+        }
+
+        public String getC() {
+            return "c";
         }
     }
 }
