@@ -224,6 +224,16 @@ public class JSONObject {
         return props;
     }
 
+    public static String[] getNames(JSONObject x) {
+        Set<String> names = x.keySet();
+        String[] r = new String[names.size()];
+        int i = 0;
+        for (String name : names) {
+            r[i++] = name;
+        }
+        return r;
+    }
+
     /**
      * Returns the number of name/value mappings in this object.
      *

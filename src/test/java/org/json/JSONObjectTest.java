@@ -16,13 +16,22 @@
 
 package org.json;
 
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+import org.junit.Test;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
-
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import static org.junit.Assert.*;
 
@@ -1122,6 +1131,11 @@ public class JSONObjectTest {
     public void testBeanThings() throws Exception {
         Foo f = new Foo();
         assertEquals("{\"a\":1,\"b\":1,\"c\":\"c\"}", new JSONObject(f).toString());
+    }
+
+    @Test
+    public void testGetNames() throws Exception {
+        assertArrayEquals(new String[]{"a", "b", "c"}, JSONObject.getNames(new JSONObject(new Foo())));
     }
 
     private static class Foo {
