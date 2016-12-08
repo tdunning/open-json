@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -112,7 +111,7 @@ public class JSONObject {
         // at least make the broken equals(null) consistent with Objects.hashCode(null).
         @Override
         public int hashCode() {
-            return Objects.hashCode(null);
+            return 0;
         }
 
         @Override
