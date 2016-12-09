@@ -14,6 +14,12 @@ hs_err_pid*
 # Maven
 target
 
+# IDEA
+.idea
+*.iml
+release.properties
+pom.xml.releaseBackup
+
 # Eclipse
 .classpath
 .project
