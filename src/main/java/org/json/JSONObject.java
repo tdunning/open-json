@@ -216,9 +216,9 @@ public class JSONObject {
         PropertyDescriptor[] properties = Introspector.getBeanInfo(bean.getClass(), Object.class)
                 .getPropertyDescriptors();
         Map<String, Object> props = new TreeMap<String, Object>();
-        for (int i = 0; i < properties.length; i++) {
-            PropertyDescriptor propertyDescriptor = properties[i];
-            props.put(propertyDescriptor.getDisplayName(), propertyDescriptor.getReadMethod().invoke(bean));
+        for (PropertyDescriptor prop : properties) {
+            Object v = prop.getReadMethod().invoke(bean);
+            props.put(prop.getDisplayName(), wrap(v));
         }
         return props;
     }
@@ -932,7 +932,8 @@ public class JSONObject {
      * If the object is an array or {@code Collection}, returns an equivalent {@code JSONArray}.
      * If the object is a {@code Map}, returns an equivalent {@code JSONObject}.
      * If the object is a primitive wrapper type or {@code String}, returns the object.
-     * Otherwise if the object is from a {@code java} package, returns the result of {@code toString}.
+     * If the object is from a {@code java} package, returns the result of {@code toString}.
+     * If the object is some other kind of object then it is assumed to be a bean and is converted to a JSONObject.
      * If wrapping fails, returns null.
      *
      * @param o The object to wrap.
@@ -968,8 +969,10 @@ public class JSONObject {
                     o instanceof String) {
                 return o;
             }
-            if (o.getClass().getPackage().getName().startsWith("java.")) {
+            if (o.getClass().getPackage().getName().startsWith("java.") || o.getClass().isEnum()) {
                 return o.toString();
+            } else {
+                return new JSONObject(o);
             }
         } catch (Exception ignored) {
         }

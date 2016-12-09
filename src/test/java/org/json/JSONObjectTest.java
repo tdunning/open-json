@@ -18,6 +18,8 @@ package org.json;
 
 import org.junit.Test;
 
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -1128,14 +1131,14 @@ public class JSONObjectTest {
     }
 
     @Test
-    public void testBeanThings() throws Exception {
+    public void testBeanThings() throws IllegalAccessException, IntrospectionException, InvocationTargetException {
         Foo f = new Foo();
-        assertEquals("{\"a\":1,\"b\":1,\"c\":\"c\"}", new JSONObject(f).toString());
+        assertEquals("{\"a\":1,\"b\":1,\"c\":\"c\",\"d\":[{\"e\":\"echo\"}]}", new JSONObject(f).toString());
     }
 
     @Test
     public void testGetNames() throws Exception {
-        assertArrayEquals(new String[]{"a", "b", "c"}, JSONObject.getNames(new JSONObject(new Foo())));
+        assertArrayEquals(new String[]{"a", "b", "c", "d"}, JSONObject.getNames(new JSONObject(new Foo())));
     }
 
     private static class Foo {
@@ -1149,6 +1152,18 @@ public class JSONObjectTest {
 
         public String getC() {
             return "c";
+        }
+
+        public List<Bar> getD() {
+            ArrayList<Bar> r = new ArrayList<Bar>();
+            r.add(new Bar());
+            return r;
+        }
+    }
+
+    private static class Bar {
+        public String getE() {
+            return "echo";
         }
     }
 }

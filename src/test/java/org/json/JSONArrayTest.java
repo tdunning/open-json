@@ -594,6 +594,7 @@ public class JSONArrayTest {
     enum MyEnum { A, B, C }
 
     // https://code.google.com/p/android/issues/detail?id=62539
+    // but changed in open-json to return toString for all enums
     @Test
     public void testEnums() throws Exception {
         // This works because it's in java.* and any class in there falls back to toString.
@@ -602,6 +603,6 @@ public class JSONArrayTest {
 
         // This doesn't because it's not.
         JSONArray a2 = new JSONArray(MyEnum.values());
-        assertEquals("[null,null,null]", a2.toString());
+        assertEquals("[\"A\",\"B\",\"C\"]", a2.toString());
     }
 }
