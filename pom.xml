@@ -4,7 +4,7 @@
 
     <groupId>com.tdunning</groupId>
     <artifactId>json</artifactId>
-    <version>1.7</version>
+    <version>1.8-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <name>Open JSON</name>
@@ -22,7 +22,7 @@
     <scm>
         <connection>scm:git:https://github.com/tdunning/open-json.git</connection>
         <developerConnection>scm:git:https://github.com/tdunning/open-json.git</developerConnection>
-        <tag>json-1.7</tag>
+        <tag>HEAD</tag>
         <url>https://github.com/tdunning/open-json</url>
     </scm>
 
