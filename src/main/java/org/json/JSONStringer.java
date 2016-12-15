@@ -247,9 +247,14 @@ public class JSONStringer {
 
         beforeValue();
 
+        if (value instanceof JSONString) {
+          out.append(((JSONString) value).toJSONString());
+          return this;
+        }
+
         if (value == null
-                || value instanceof Boolean
-                || value == JSONObject.NULL) {
+              || value instanceof Boolean
+              || value == JSONObject.NULL) {
             out.append(value);
 
         } else if (value instanceof Number) {
