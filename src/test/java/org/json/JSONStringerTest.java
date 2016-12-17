@@ -18,6 +18,8 @@ package org.json;
 
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.junit.Assert.*;
 
 /**
@@ -383,6 +385,37 @@ public class JSONStringerTest {
             stringer.object();
             fail();
         } catch (JSONException ignored) {
+        }
+    }
+
+    @Test
+    public void testEnums() {
+        JSONObject x = new JSONObject();
+        x.put("a", TimeUnit.SECONDS);
+        x.put("b", "xyx");
+        JSONStringer s = new JSONStringer();
+        s.array();
+        s.value(x);
+        s.endArray();
+        assertEquals("[{\"a\":\"SECONDS\",\"b\":\"xyx\"}]", s.toString());
+    }
+
+    @Test
+    public void testJsonString() {
+        JSONObject x = new JSONObject();
+        x.put("a", new Goo());
+        JSONStringer s = new JSONStringer();
+        s.array();
+        s.value(x);
+        s.endArray();
+        // note lack of quotes
+        assertEquals("[{\"a\":fffooo}]", s.toString());
+    }
+
+    private static class Goo implements JSONString {
+        @Override
+        public String toJSONString() {
+            return "fffooo";
         }
     }
 }

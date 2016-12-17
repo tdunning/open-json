@@ -35,6 +35,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
@@ -118,7 +119,7 @@ public class JSONObjectTest {
         assertEquals(null, object.optJSONArray("foo"));
         assertEquals(null, object.optJSONObject("foo"));
         assertEquals(0, object.optLong("foo"));
-        assertEquals(Long.MAX_VALUE-1, object.optLong("foo", Long.MAX_VALUE-1));
+        assertEquals(Long.MAX_VALUE - 1, object.optLong("foo", Long.MAX_VALUE - 1));
         assertEquals("", object.optString("foo")); // empty string is default!
         assertEquals("bar", object.optString("foo", "bar"));
         assertNull(object.remove("foo"));
@@ -365,16 +366,21 @@ public class JSONObjectTest {
             public int intValue() {
                 throw new UnsupportedOperationException();
             }
+
             public long longValue() {
                 throw new UnsupportedOperationException();
             }
+
             public float floatValue() {
                 throw new UnsupportedOperationException();
             }
+
             public double doubleValue() {
                 return Double.NaN;
             }
-            @Override public String toString() {
+
+            @Override
+            public String toString() {
                 return "x";
             }
         };
@@ -390,7 +396,8 @@ public class JSONObjectTest {
     @Test
     public void testForeignObjects() throws JSONException {
         Object foreign = new Object() {
-            @Override public String toString() {
+            @Override
+            public String toString() {
                 return "x";
             }
         };
@@ -811,7 +818,7 @@ public class JSONObjectTest {
         source.put("b", false);
         source.put("c", 5);
 
-        JSONObject copy = new JSONObject(source, new String[] { "a", "c" });
+        JSONObject copy = new JSONObject(source, new String[]{"a", "c"});
         assertEquals(2, copy.length());
         assertEquals(JSONObject.NULL, copy.get("a"));
         assertEquals(5, copy.get("c"));
@@ -825,7 +832,7 @@ public class JSONObjectTest {
         source.put("b", false);
         source.put("c", 5);
 
-        JSONObject copy = new JSONObject(source, new String[]{ "a", "c", "d" });
+        JSONObject copy = new JSONObject(source, new String[]{"a", "c", "d"});
         assertEquals(2, copy.length());
         assertEquals(JSONObject.NULL, copy.get("a"));
         assertEquals(5, copy.get("c"));
@@ -1164,6 +1171,28 @@ public class JSONObjectTest {
     private static class Bar {
         public String getE() {
             return "echo";
+        }
+    }
+
+    @Test
+    public void testEnumWrapper() throws Exception {
+        Object y = JSONObject.wrap(E.A);
+        assertEquals("A", y);
+        assertTrue(y instanceof String);
+    }
+
+    enum E {
+        A {
+            int key() {
+                return 1;
+            }
+        }, B {
+            int key() {
+                return 2;
+            }
+        };
+        int key() {
+            return -1;
         }
     }
 }

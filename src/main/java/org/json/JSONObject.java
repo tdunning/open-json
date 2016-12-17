@@ -969,7 +969,7 @@ public class JSONObject {
                     o instanceof String) {
                 return o;
             }
-            if (o.getClass().getPackage().getName().startsWith("java.") || o.getClass().isEnum()) {
+            if (o.getClass().getPackage().getName().startsWith("java.") || o instanceof Enum<?>) {
                 return o.toString();
             } else {
                 return new JSONObject(o);
