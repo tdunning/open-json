@@ -260,6 +260,9 @@ public class JSONStringer {
         } else if (value instanceof Number) {
             out.append(JSONObject.numberToString((Number) value));
 
+        } else if (value instanceof String) {
+            string((String) value);
+
         } else {
             // Hack to make it possible that the value is not surrounded by quotes. (Used for JavaScript function calls)
             // Example: { "name": "testkey", "value": window.myfunction() }
