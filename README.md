@@ -11,6 +11,11 @@ ill-defined, many downstream consumers of this software
 find this license condition unacceptable. The moral is 
 don't put jokes into legal documents.
 
+Going forward, it would be good to look at the independent 
+open-json project[3]. The goals of that project go beyond
+the original goals for a drop-on replacement for the 
+original json.org library.
+
 # Acknowledgements
 
 Thanks to the Android team for doing 99% of the work.
@@ -23,3 +28,4 @@ suggestions so open-json can help Wicket avoid the problem.
 
 [1] http://www.json.org/
 [2] http://www.json.org/license.html 
+[3] https://github.com/openjson
